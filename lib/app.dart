@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'core/model_loading/model_loader.dart';
 import 'features/home/view/home_page.dart';
 
 class MarkAnyDownApp extends StatelessWidget {
-  const MarkAnyDownApp({super.key});
+  const MarkAnyDownApp({super.key, this.modelLoader});
+
+  final ModelLoader? modelLoader;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +14,7 @@ class MarkAnyDownApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'MarkAnyDown',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.teal)),
-      home: const HomePage(),
+      home: HomePage(modelLoader: modelLoader),
     );
   }
 }

@@ -8,13 +8,30 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:markanydown/app.dart';
+import 'package:markanydown/core/model_loading/model_load_progress.dart';
+import 'package:markanydown/core/model_loading/model_loader.dart';
 
 void main() {
   testWidgets('MarkAnyDown app renders', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MarkAnyDownApp());
+    await tester.pumpWidget(MarkAnyDownApp(modelLoader: _FakeModelLoader()));
+    await tester.pump();
 
     expect(find.text('MarkAnyDown'), findsOneWidget);
-    expect(find.text('Convert most files to Markdown format'), findsOneWidget);
+    expect(find.text('PaddleOCR-VL native runtime 已就绪'), findsOneWidget);
+    expect(find.text('100%'), findsNothing);
   });
+}
+
+class _FakeModelLoader implements ModelLoader {
+  @override
+  Stream<ModelLoadProgress> load() async* {
+    yield const ModelLoadProgress(
+      task: 'PaddleOCR-VL native runtime 已就绪',
+      progress: 1,
+    );
+  }
+
+  @override
+  Future<void> dispose() async {}
 }
